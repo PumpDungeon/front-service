@@ -1,6 +1,5 @@
 import './App.css'
-import {useEffect} from "react";
-import React,{useState} from "react";
+import {useEffect, useState} from "react";
 
 function App() {
 
@@ -32,8 +31,7 @@ function App() {
                     inventory: [
                         "item"
                     ],
-                    gold: 100,
-                    dps: 4
+                    gold: 100
                 })
             }
         );
@@ -74,9 +72,20 @@ function App() {
         console.log("setFight : ",data);
     }
 
+    const updatePlayer = async () => {
+        const ws = new WebSocket('ws://localhost:3002');
+        ws.onmessage = (event) => {
+            const playerData = JSON.parse(event.data);
+            console.log("playerData : ",playerData);
+            setPlayer(playerData);
+        };
+        return () => ws.close();
+    }
+
     useEffect( () => {
         fetchMap();
         createPlayer();
+        updatePlayer();
 
     }, []);
 
