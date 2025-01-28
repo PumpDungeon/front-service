@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import amqp from 'amqplib';
-import { generateMap } from './helpers/generateMap.js';
+// import { generateMap } from './helpers/generateMap.js';
 
 const app = express();
 
@@ -33,7 +33,7 @@ app.post('/api/fight', async (req, res) => {
         return res.status(500);
     }
 
-    await fetch('http://localhost:3002/api/setPlayer', {
+    await fetch(`${process.env.PLAYER_SERVICE_URL}/api/setPlayer`, {
         body: JSON.stringify({
            ...player,
            hp: player.hp - 10
@@ -61,5 +61,5 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, async () => {
     const connection = await amqp.connect(`amqp://${process.env.RABBITMQ_HOST}`);
     channel = await connection.createChannel();
-    console.log(`Dungeon Service running on port ${PORT}`);
+    console.log(`Fight Service running on port ${PORT}`);
 });
