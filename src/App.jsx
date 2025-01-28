@@ -51,16 +51,33 @@ function App() {
                 body: JSON.stringify({
                     position: {"x": 1, "y": 2},
                     map
-                })K
+                })
             }
         );
         const data = await response.json();
         console.log("movePlayer : ",data);
     }
 
+    const setFight = async () => {
+        const response = await fetch( `http://localhost:3001/api/setFight`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    player
+                })
+            }
+        );
+        const data = await response.json();
+        console.log("setFight : ",data);
+    }
+
     useEffect( () => {
         fetchMap();
         createPlayer();
+
     }, []);
 
     /*const handleClick = async () => {

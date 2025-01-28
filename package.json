@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "../front-service2/node_modules/.bin/vite",
-    "build": "../front-service2/node_modules/.bin/vite build",
-    "lint": "../front-service2/node_modules/.bin/eslint .",
-    "preview": "../front-service2/node_modules/.bin/vite preview"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
