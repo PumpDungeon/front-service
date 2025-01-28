@@ -6,7 +6,7 @@ function App() {
     const [map, setMap] = useState([]);
     const [player, setPlayer] = useState({});
     const fetchMap = async () => {
-        const response = await fetch( `http://localhost:3000/api/generate`,
+        const response = await fetch( '/api/dungeon/generate',
             {
                 method: 'GET',
                 headers: {
@@ -19,7 +19,7 @@ function App() {
     }
 
     const createPlayer = async () => {
-        const response = await fetch( `http://localhost:3002/api/setPlayer`,
+        const response = await fetch('/api/player/setPlayer',
             {
                 method: 'POST',
                 headers: {
@@ -40,7 +40,7 @@ function App() {
     }
 
     const movePlayer = async () => {
-        const response = await fetch( `http://localhost:3000/api/move`,
+        const response = await fetch('/api/dungeon/move',
             {
                 method: 'POST',
                 headers: {
@@ -57,7 +57,7 @@ function App() {
     }
 
     const setFight = async () => {
-        const response = await fetch( `http://localhost:3001/api/setFight`,
+        const response = await fetch('/api/fight/setFight',
             {
                 method: 'POST',
                 headers: {
@@ -90,7 +90,7 @@ function App() {
     }, []);
 
     /*const handleClick = async () => {
-        const response = await fetch(`http://localhost:3002/api/getPlayer`,
+        const response = await fetch(`/api/player/getPlayer`,
             {
                 method: 'GET',
                 headers: {
