@@ -57,7 +57,7 @@ app.post('/api/fight', async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, async () => {
-    const connection = await amqp.connect('amqp://localhost:4672');
+    const connection = await amqp.connect('amqp://localhost:5672');
     channel = await connection.createChannel();
     console.log(`Dungeon Service running on port ${PORT}`);
 });
