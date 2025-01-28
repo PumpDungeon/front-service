@@ -1,10 +1,12 @@
-const express = require('express');
-const cors = require('cors');
-const amqp = require('amqplib');
-
-const {generateMap} = require("./helpers/generateMap");
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import amqp from 'amqplib';
+import { generateMap } from './helpers/generateMap.js';
 
 const app = express();
+
+dotenv.config();
 
 let channel
 
@@ -57,7 +59,7 @@ app.post('/api/fight', async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, async () => {
-    const connection = await amqp.connect('amqp://localhost:5672');
+    const connection = await amqp.connect(`amqp://${process.env.RABBITMQ_HOST}`);
     channel = await connection.createChannel();
     console.log(`Dungeon Service running on port ${PORT}`);
 });
