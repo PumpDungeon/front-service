@@ -79,6 +79,18 @@
   }
 }
 
+.hero-image {
+  width: 1em;
+  height: 1em;
+  vertical-align: sub;
+}
+
+.map-hero-image {
+  width: 1em;
+  height: 1em;
+  vertical-align: sub;
+}
+
 .selected-hero{
     border: 0.1em solid #888888;
 }
