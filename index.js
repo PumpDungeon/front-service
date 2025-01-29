@@ -35,7 +35,6 @@ app.post('/api/fight', async (req, res) => {
 
     await fetch(`${process.env.PLAYER_SERVICE_URL}/api/setPlayer`, {
         body: JSON.stringify({
-           ...player,
            hp: player.hp - 10
         }),
         method: 'POST',
@@ -48,8 +47,6 @@ app.post('/api/fight', async (req, res) => {
 
     await sendMessageToRabbitMQ(player._id, {
         player: {
-            ...player,
-            hp: player.hp - 10,
             gold: player.gold + 3
         }
     })
