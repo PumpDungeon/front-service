@@ -46,7 +46,7 @@ function App() {
         setPlayer(data.player);
     }
 
-    const movePlayer = async () => {
+    const movePlayer = async (x,y) => {
         const response = await fetch('/api/dungeon/move',
             {
                 method: 'POST',
@@ -60,10 +60,18 @@ function App() {
             }
         );
         const data = await response.json();
+        if(data.possible) {
+            setX(data.position.x);
+            setY(data.position.y);
+            if(data.fight) {
+                setFight();
+            }
+        }
         console.log("movePlayer : ",data);
     }
 
     const setFight = async () => {
+        console.log('Fight !');
         const response = await fetch('/api/fight/setFight',
             {
                 method: 'POST',
@@ -82,6 +90,7 @@ function App() {
         const ws = new WebSocket('ws://localhost:3002');
         ws.onmessage = (event) => {
             const playerData = JSON.parse(event.data);
+            console.log('updatePlayer : ', playerData);
             setPlayer(playerData);
         };
         return () => ws.close();
@@ -91,16 +100,16 @@ function App() {
         console.log('keyup', x, y);
         switch (e.key) {
             case 'ArrowUp':
-                setY(y + 1);
+                movePlayer(x, y - 1);
                 break;
             case 'ArrowDown':
-                setY(y - 1);
+                movePlayer(x, y + 1);
                 break;
             case 'ArrowLeft':
-                setX(x - 1);
+                movePlayer(x - 1, y);
                 break;
             case 'ArrowRight':
-                setX(x + 1);
+                movePlayer(x + 1, y);
                 break;
         }
     }
@@ -135,7 +144,7 @@ function App() {
         <div>
             {x} - {y};
             <InfoDisplay player={player}/>
-            <Map hero={hero} map={map}/>
+            <Map hero={hero} map={map} x={x} y={y}/>
             <HeroSelect setHero={setHero} hero={hero} />
         </div>
     )
