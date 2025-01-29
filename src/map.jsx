@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 
 export const Map = () => {
 
-    const [map, setMap] = useState([]);
+    const [gameMap, setGameMap] = useState([]);
     const [player, setPlayer] = useState({});
     const [hero, setHero] = useState("🐐");
     const [x, setX] = useState(0);
@@ -19,7 +19,7 @@ export const Map = () => {
             }
         );
         const data = await response.json();
-        setMap(data.map);
+        setGameMap(data.map);
     }
 
     const createPlayer = async () => {
@@ -52,7 +52,7 @@ export const Map = () => {
                 },
                 body: JSON.stringify({
                     position: { x, y },
-                    map
+                    map :gameMap
                 })
             }
         );
@@ -109,9 +109,9 @@ export const Map = () => {
     }
 
     useEffect(() => {
-        if (map.length === 0) return;
+        if (gameMap.length === 0) return;
 
-        const newPosition = map.reduce((acc, row, rowIndex) => {
+        const newPosition = gameMap.reduce((acc, row, rowIndex) => {
             const colIndex = row.indexOf(3);
             if (colIndex !== -1) {
                 acc = { x: colIndex, y: rowIndex };
@@ -125,7 +125,7 @@ export const Map = () => {
         setTimeout(() => {
             console.log("newPosition : ", x, y);
         });
-    }, [map]);
+    },[gameMap]);
 
     useEffect( () => {
         fetchMap();
@@ -159,7 +159,7 @@ export const Map = () => {
                 <label>🪙 Gold : {player.gold}</label>
             </div>
             <div className="grid">
-                {map.flatMap((row, rowIndex) =>
+                {gameMap.flatMap((row, rowIndex) =>
                     row.map((cell, cellIndex) => (
                         <div
                             className={getCellClass(cell)}
