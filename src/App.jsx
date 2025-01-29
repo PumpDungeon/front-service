@@ -1,10 +1,15 @@
 import './App.css'
-import {useEffect, useState} from "react";
+import {Map} from "./map.jsx";
+import {useState} from "react";
 
 function App() {
-
     const [map, setMap] = useState([]);
     const [player, setPlayer] = useState({});
+    const [hero, setHero] = useState("🐐");
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
+    const [ isListening , setIsListening ] = useState(false);
+
     const fetchMap = async () => {
         const response = await fetch( '/api/dungeon/generate',
             {
@@ -47,7 +52,7 @@ function App() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    position: {"x": 1, "y": 2},
+                    position: { x, y },
                     map
                 })
             }
@@ -69,47 +74,20 @@ function App() {
             }
         );
         const data = await response.json();
-        console.log("setFight : ",data);
     }
 
     const updatePlayer = async () => {
         const ws = new WebSocket('ws://localhost:3002');
         ws.onmessage = (event) => {
             const playerData = JSON.parse(event.data);
-            console.log("playerData : ",playerData);
             setPlayer(playerData);
         };
         return () => ws.close();
     }
 
-    useEffect( () => {
-        fetchMap();
-        createPlayer();
-        updatePlayer();
-
-    }, []);
-
-    /*const handleClick = async () => {
-        const response = await fetch(`/api/player/getPlayer`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-        const data = await response.json();
-        console.log("data : ", data);
-    }
-
-     */
-
-  return (
-    <>
-      <h1>Ma Page</h1>
-        <button onClick={movePlayer}>Click Me</button>
-    </>
-  )
+    return (
+        <Map />
+    )
 }
 
 export default App
