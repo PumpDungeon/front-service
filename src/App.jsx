@@ -91,7 +91,7 @@ function App() {
         ws.onmessage = (event) => {
             const playerData = JSON.parse(event.data);
             console.log('updatePlayer : ', playerData);
-            setPlayer(playerData);
+            setPlayer({...player, ...playerData});
         };
         return () => ws.close();
     }
