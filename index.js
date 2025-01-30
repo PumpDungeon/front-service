@@ -35,7 +35,7 @@ app.post('/api/fight', async (req, res) => {
 
     await fetch(`${process.env.PLAYER_SERVICE_URL}/api/setPlayer`, {
         body: JSON.stringify({
-           hp: player.hp - 10
+           pv: player.pv - 10
         }),
         method: 'POST',
         headers: {

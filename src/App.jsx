@@ -38,7 +38,7 @@ function App() {
                     inventory: [
                         "item"
                     ],
-                    gold: 100
+                    gold: 0
                 })
             }
         );
@@ -72,7 +72,7 @@ function App() {
 
     const setFight = async () => {
         console.log('Fight !');
-        const response = await fetch('/api/fight/setFight',
+        const response = await fetch('/api/fight/fight',
             {
                 method: 'POST',
                 headers: {
