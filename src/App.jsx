@@ -10,7 +10,7 @@ function App() {
     const [hero, setHero] = useState("🐐");
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
-    const [ isListening , setIsListening ] = useState(false);
+    const [ level , setLevel ] = useState(1);
 
     const fetchMap = async () => {
         const response = await fetch( '/api/dungeon/generate',
@@ -47,6 +47,11 @@ function App() {
     }
 
     const movePlayer = async (x,y) => {
+        if(map[y][x] === 4) {
+            await fetchMap();
+            setLevel(level + 1);
+            return;
+        }
         const response = await fetch('/api/dungeon/move',
             {
                 method: 'POST',
@@ -91,6 +96,10 @@ function App() {
         ws.onmessage = (event) => {
             const playerData = JSON.parse(event.data);
             console.log('updatePlayer : ', playerData);
+            if(playerData.pv <= 0) {
+                window.location.reload();
+                return;
+            }
             setPlayer({...player, ...playerData});
         };
         return () => ws.close();
@@ -142,7 +151,7 @@ function App() {
 
     return (
         <div>
-            {x} - {y};
+            Level {level}
             <InfoDisplay player={player}/>
             <Map hero={hero} map={map} x={x} y={y}/>
             <HeroSelect setHero={setHero} hero={hero} />
